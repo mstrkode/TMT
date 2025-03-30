@@ -1,7 +1,6 @@
 from django.db import models
 
-from interview.core.behaviors import (IsActiveModel, TimestampedModel,
-                                      UniqueNameModel)
+from interview.core.behaviors import IsActiveModel, TimestampedModel, UniqueNameModel
 from interview.inventory.models import Inventory
 
 

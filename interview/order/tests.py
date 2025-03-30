@@ -2,8 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from interview.inventory.models import (Inventory, InventoryLanguage,
-                                        InventoryType)
+from interview.inventory.models import Inventory, InventoryLanguage, InventoryType
 from interview.order.models import Order
 
 
@@ -48,37 +47,41 @@ class OrdersBetweenDatesViewTests(APITestCase):
             name="Test Inventory",
             metadata={"test_key": "test_value"},
             language=self.language,
-            type=self.inventory_type
+            type=self.inventory_type,
         )
 
         self.order1 = Order.objects.create(
             inventory=self.inventory,
             is_active=True,
-            start_date='2023-01-01',
-            embargo_date='2023-06-30'
+            start_date="2023-01-01",
+            embargo_date="2023-06-30",
         )
 
         self.order2 = Order.objects.create(
             inventory=self.inventory,
             is_active=True,
-            start_date='2023-07-01',
-            embargo_date='2023-12-31'
+            start_date="2023-07-01",
+            embargo_date="2023-12-31",
         )
 
     def test_orders_between_dates(self):
-        url = reverse('orders-between-dates')
-        response = self.client.get(url, {'start_date': '2023-01-01', 'embargo_date': '2023-06-30'})
+        url = reverse("orders-between-dates")
+        response = self.client.get(
+            url, {"start_date": "2023-01-01", "embargo_date": "2023-06-30"}
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['id'], self.order1.id)
+        self.assertEqual(response.data[0]["id"], self.order1.id)
 
     def test_orders_between_dates_no_results(self):
-        url = reverse('orders-between-dates')
-        response = self.client.get(url, {'start_date': '2024-01-01', 'embargo_date': '2024-12-31'})
+        url = reverse("orders-between-dates")
+        response = self.client.get(
+            url, {"start_date": "2024-01-01", "embargo_date": "2024-12-31"}
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 0)
 
     def test_orders_between_dates_missing_params(self):
-        url = reverse('orders-between-dates')
-        response = self.client.get(url, {'start_date': '2023-01-01'})
+        url = reverse("orders-between-dates")
+        response = self.client.get(url, {"start_date": "2023-01-01"})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

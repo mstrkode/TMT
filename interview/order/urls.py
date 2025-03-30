@@ -1,7 +1,11 @@
 from django.urls import path
 
-from interview.order.views import (DeactivateOrderView, OrderListCreateView,
-                                   OrderTagListCreateView, OrdersBetweenDatesView)
+from interview.order.views import (
+    DeactivateOrderView,
+    OrderListCreateView,
+    OrdersBetweenDatesView,
+    OrderTagListCreateView,
+)
 
 urlpatterns = [
     path("tags/", OrderTagListCreateView.as_view(), name="order-detail"),
@@ -11,5 +15,7 @@ urlpatterns = [
         DeactivateOrderView.as_view(),
         name="deactivate-order",
     ),
-    path('between-dates/', OrdersBetweenDatesView.as_view(), name='orders-between-dates'),
+    path(
+        "between-dates/", OrdersBetweenDatesView.as_view(), name="orders-between-dates"
+    ),
 ]

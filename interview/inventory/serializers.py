@@ -1,7 +1,11 @@
 from rest_framework import serializers
 
-from interview.inventory.models import (Inventory, InventoryLanguage,
-                                        InventoryTag, InventoryType)
+from interview.inventory.models import (
+    Inventory,
+    InventoryLanguage,
+    InventoryTag,
+    InventoryType,
+)
 
 
 class InventoryTagSerializer(serializers.ModelSerializer):
