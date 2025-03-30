@@ -3,13 +3,12 @@ from django.urls import path
 from interview.inventory.views import (
     InventoryLanguageListCreateView,
     InventoryLanguageRetrieveUpdateDestroyView,
-    InventoryListCreateView,
+    InventoryListView,
     InventoryRetrieveUpdateDestroyView,
     InventoryTagListCreateView,
     InventoryTagRetrieveUpdateDestroyView,
     InventoryTypeListCreateView,
     InventoryTypeRetrieveUpdateDestroyView,
-    InventoryListView,
 )
 
 urlpatterns = [

@@ -2,7 +2,6 @@ from django.utils.dateparse import parse_date
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status
 
 from interview.inventory.models import (
     Inventory,
@@ -247,27 +246,30 @@ class InventoryListView(APIView):
     """
     View to list all inventory items with pagination.
     """
+
     def get(self, request):
         # Get pagination parameters from query string
-        offset = int(request.query_params.get('offset', 0))
-        limit = int(request.query_params.get('limit', 3))  # Default to 3 items per page
-        
+        offset = int(request.query_params.get("offset", 0))
+        limit = int(request.query_params.get("limit", 3))  # Default to 3 items per page
+
         # Get all inventory items
         inventories = Inventory.objects.all()
-        
+
         # Apply pagination
-        paginated_inventories = inventories[offset:offset + limit]
-        
+        paginated_inventories = inventories[offset : offset + limit]
+
         # Count total items for pagination metadata
         total_count = inventories.count()
-        
+
         # Serialize the data
         serializer = InventorySerializer(paginated_inventories, many=True)
-        
+
         # Return paginated response
-        return Response({
-            'count': total_count,
-            'next': None if offset + limit >= total_count else offset + limit,
-            'previous': None if offset == 0 else max(0, offset - limit),
-            'results': serializer.data
-        })
+        return Response(
+            {
+                "count": total_count,
+                "next": None if offset + limit >= total_count else offset + limit,
+                "previous": None if offset == 0 else max(0, offset - limit),
+                "results": serializer.data,
+            }
+        )
