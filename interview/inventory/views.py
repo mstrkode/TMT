@@ -1,3 +1,4 @@
+from django.utils.dateparse import parse_date
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.views import APIView
@@ -27,8 +28,14 @@ class InventoryListCreateView(APIView):
         return Response(serializer.data, status=201)
     
     def get(self, request: Request, *args, **kwargs) -> Response:
-        serializer = self.serializer_class(self.get_queryset(), many=True)
+        date_str = request.query_params.get('created_after', None)
+        if date_str:
+            date = parse_date(date_str)
+            if not date:
+                return Response({'error': 'Invalid date format. Please use YYYY-MM-DD.'}, status=400)
+            self.queryset = self.queryset.filter(created_at__gt=date)
         
+        serializer = self.serializer_class(self.get_queryset(), many=True)
         return Response(serializer.data, status=200)
     
     def get_queryset(self):
