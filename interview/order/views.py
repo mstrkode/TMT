@@ -31,3 +31,16 @@ class DeactivateOrderView(APIView):
             return Response(
                 {"error": "Order not found."}, status=status.HTTP_404_NOT_FOUND
             )
+
+
+class OrdersBetweenDatesView(APIView):
+    def get(self, request, *args, **kwargs):
+        start_date = request.query_params.get('start_date')
+        embargo_date = request.query_params.get('embargo_date')
+
+        if not start_date or not embargo_date:
+            return Response({"error": "Both start_date and embargo_date are required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        orders = Order.objects.filter(start_date__gte=start_date, embargo_date__lte=embargo_date)
+        serializer = OrderSerializer(orders, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
