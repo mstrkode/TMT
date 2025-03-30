@@ -1,11 +1,7 @@
 from django.db import models
 
-from interview.core.behaviors import (
-    IsActiveModel,
-    NameModel,
-    TimestampedModel,
-    UniqueNameModel,
-)
+from interview.core.behaviors import (IsActiveModel, NameModel,
+                                      TimestampedModel, UniqueNameModel)
 
 
 class InventoryTag(UniqueNameModel, TimestampedModel, IsActiveModel, models.Model):

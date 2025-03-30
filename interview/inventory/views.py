@@ -3,19 +3,13 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from interview.inventory.models import (
-    Inventory,
-    InventoryLanguage,
-    InventoryTag,
-    InventoryType,
-)
+from interview.inventory.models import (Inventory, InventoryLanguage,
+                                        InventoryTag, InventoryType)
 from interview.inventory.schemas import InventoryMetaData
-from interview.inventory.serializers import (
-    InventoryLanguageSerializer,
-    InventorySerializer,
-    InventoryTagSerializer,
-    InventoryTypeSerializer,
-)
+from interview.inventory.serializers import (InventoryLanguageSerializer,
+                                             InventorySerializer,
+                                             InventoryTagSerializer,
+                                             InventoryTypeSerializer)
 
 
 class InventoryListCreateView(APIView):
